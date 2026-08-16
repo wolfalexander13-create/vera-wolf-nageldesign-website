@@ -1,0 +1,135 @@
+---
+const pillars = [
+  {
+    title: 'Mehrfach zertifiziert',
+    text: 'Ausgebildet an der Lynis Nailacademy in sieben Disziplinen — von Fräsertechnik bis Nagelform. Fachwissen statt Trial-and-Error.',
+    icon: 'award',
+  },
+  {
+    title: 'MMA-frei',
+    text: 'Ich verzichte konsequent auf MMA und andere aggressive, schadstoffbelastete Inhaltsstoffe — zugunsten hochwertiger, nagelschonender Materialien.',
+    icon: 'shield',
+  },
+  {
+    title: 'Hygiene mit System',
+    text: 'Desinfizierte, sterile Instrumente und ein klar strukturierter Hygieneablauf für jede einzelne Behandlung.',
+    icon: 'drop',
+  },
+];
+
+const icons: Record<string, string> = {
+  award:
+    '<circle cx="12" cy="8" r="5"/><path d="M8.5 12.5 7 21l5-3 5 3-1.5-8.5"/>',
+  shield: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="m9 12 2 2 4-4"/>',
+  drop: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+};
+---
+
+<section id="qualitaet" class="trust section-pad">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Qualität &amp; Sicherheit</p>
+      <h2 class="section-title">Ein Vertrauensversprechen, das wir aktiv aussprechen</h2>
+      <p class="section-lede">
+        Gesunde Nägel sind kein Zufall, sondern das Ergebnis von Ausbildung,
+        Material und Sorgfalt. Diese drei Punkte sind uns besonders wichtig
+        — und werden in der Region bislang kaum aktiv kommuniziert.
+      </p>
+    </div>
+
+    <ul class="trust-grid">
+      {
+        pillars.map((pillar) => (
+          <li class="trust-card">
+            <span class="trust-card__icon" set:html={`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${icons[pillar.icon]}</svg>`} />
+            <h3>{pillar.title}</h3>
+            <p>{pillar.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--color-primary);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trust::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.08), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.06), transparent 45%);
+    pointer-events: none;
+  }
+
+  .trust .eyebrow {
+    color: var(--color-accent-light);
+  }
+
+  .trust .eyebrow::before {
+    background: var(--color-accent-light);
+  }
+
+  .trust .section-title,
+  .trust h3 {
+    color: #fff;
+  }
+
+  .trust .section-lede {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .trust-grid {
+    display: grid;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .trust-card {
+    padding: 2rem 1.8rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--radius-m);
+    backdrop-filter: blur(6px);
+  }
+
+  .trust-card__icon {
+    display: inline-flex;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-accent-light);
+    margin-bottom: 1.3rem;
+  }
+
+  .trust-card__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .trust-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .trust-card p {
+    margin-top: 0.7rem;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  @media (min-width: 780px) {
+    .trust-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

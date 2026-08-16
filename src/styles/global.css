@@ -1,0 +1,364 @@
+/* ==========================================================================
+   Vera Wolf Nageldesign — Design Tokens & Base Styles
+   Ruhige, edle Premium-Ästhetik: warmes Ivory, tiefes Bordeaux, sanftes Nude.
+   ========================================================================== */
+
+/* Fraunces (Display) & Manrope (Body) werden über Google Fonts im
+   <head> von BaseLayout.astro geladen (preconnect + font-display: swap). */
+
+:root {
+  /* Farbpalette */
+  --color-bg: #fbf6f1;
+  --color-bg-alt: #f4e9e1;
+  --color-surface: #ffffff;
+  --color-ink: #241a17;
+  --color-ink-soft: #5c4c45;
+  --color-ink-faint: #8a7972;
+  --color-primary: #6e2439;
+  --color-primary-dark: #4a1725;
+  --color-primary-soft: #9a5064;
+  --color-accent: #c9a084;
+  --color-accent-light: #ead9c9;
+  --color-accent-pale: #f4ece3;
+  --color-line: rgba(36, 26, 23, 0.12);
+  --color-line-soft: rgba(36, 26, 23, 0.07);
+  --color-success: #4a6b57;
+
+  /* Typografie */
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', serif;
+  --font-body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+
+  /* Radien & Schatten */
+  --radius-s: 6px;
+  --radius-m: 14px;
+  --radius-l: 28px;
+  --shadow-soft: 0 20px 60px -25px rgba(36, 26, 23, 0.35);
+  --shadow-card: 0 10px 30px -15px rgba(36, 26, 23, 0.22);
+
+  /* Layout */
+  --content-width: 1180px;
+  --content-width-narrow: 780px;
+  --section-pad-y: clamp(4rem, 8vw, 7.5rem);
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.12;
+  margin: 0;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Sichtbarer Fokus für Tastaturbedienung */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-s);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-s);
+  z-index: 1000;
+  transition: top 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ---------- Layout helpers ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap--narrow {
+  max-width: var(--content-width-narrow);
+}
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+.section-pad {
+  padding-block: var(--section-pad-y);
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.section-head--center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 1.6em;
+  height: 1px;
+  background: var(--color-primary);
+}
+
+.section-head--center .eyebrow::before {
+  display: none;
+}
+
+.section-head--center .eyebrow {
+  justify-content: center;
+}
+
+h2.section-title {
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+}
+
+.section-lede {
+  margin-top: 1rem;
+  color: var(--color-ink-soft);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.95em 1.9em;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 14px 30px -12px rgba(110, 36, 57, 0.55);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-line);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn--on-dark {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.btn--on-dark:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn--small {
+  padding: 0.7em 1.4em;
+  font-size: 0.85rem;
+}
+
+/* ---------- Photo frame / placeholder component ---------- */
+
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-m);
+  background: linear-gradient(155deg, var(--color-accent-pale) 0%, var(--color-accent-light) 100%);
+  isolation: isolate;
+}
+
+.photo-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.photo-frame__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--color-primary-dark);
+}
+
+.photo-frame__placeholder svg {
+  width: 34px;
+  height: 34px;
+  opacity: 0.55;
+}
+
+.photo-frame__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-soft);
+  max-width: 220px;
+  line-height: 1.4;
+}
+
+.photo-frame__filename {
+  display: block;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.68rem;
+  color: var(--color-primary-soft);
+  margin-top: 0.15rem;
+}
+
+/* ---------- Placeholder tag (content not final) ---------- */
+
+.placeholder-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-dark);
+  background: var(--color-accent-light);
+  border: 1px dashed var(--color-primary-soft);
+  border-radius: var(--radius-s);
+  padding: 0.15em 0.55em;
+}
+
+@media (min-width: 640px) {
+  h2.section-title {
+    font-size: clamp(2.1rem, 3.2vw, 2.85rem);
+  }
+}

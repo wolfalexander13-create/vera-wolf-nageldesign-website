@@ -1,0 +1,157 @@
+---
+import { pricingCategories } from '../data/pricing';
+---
+
+<section id="preise" class="pricing section-pad">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Preise</p>
+      <h2 class="section-title">Preisliste</h2>
+      <p class="section-lede">
+        <span class="placeholder-tag">Richtpreise</span>
+        — die folgenden Preise sind marktorientierte Richtwerte und werden
+        vor dem Launch final mit Vera abgeglichen. Alle Angaben inkl.
+        gesetzlicher Mehrwertsteuer.
+      </p>
+    </div>
+
+    <div class="pricing__categories">
+      {
+        pricingCategories.map((category) => (
+          <div class="pricing-category">
+            <h3>{category.title}</h3>
+            <table class="price-table">
+              <caption class="sr-only">{category.title} — Leistungen, Dauer und Preise</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Leistung</th>
+                  <th scope="col">Dauer</th>
+                  <th scope="col" class="price-table__price-col">Preis</th>
+                </tr>
+              </thead>
+              <tbody>
+                {category.items.map((item) => (
+                  <tr>
+                    <th scope="row">
+                      <span class="price-table__name">{item.name}</span>
+                      {item.description && (
+                        <span class="price-table__desc">{item.description}</span>
+                      )}
+                    </th>
+                    <td data-label="Dauer">{item.duration ?? '—'}</td>
+                    <td data-label="Preis" class="price-table__price-col">{item.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="pricing__note">
+      Individuelle Wünsche (z. B. besonders aufwändige Nailart oder
+      Kombinationen mehrerer Leistungen) besprechen wir gerne persönlich bei
+      der Terminvereinbarung.
+    </p>
+  </div>
+</section>
+
+<style>
+  .pricing__categories {
+    display: grid;
+    gap: 2.75rem;
+  }
+
+  .pricing-category h3 {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--color-accent);
+    display: inline-block;
+  }
+
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .price-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .price-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+
+  .price-table th[scope='row'] {
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .price-table__name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    color: var(--color-ink);
+  }
+
+  .price-table__desc {
+    display: block;
+    font-size: 0.86rem;
+    color: var(--color-ink-faint);
+    margin-top: 0.2rem;
+    font-weight: 400;
+  }
+
+  .price-table td {
+    font-size: 0.88rem;
+    color: var(--color-ink-soft);
+  }
+
+  .price-table td[data-label]::before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: var(--color-ink-faint);
+  }
+
+  .price-table__price-col {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+
+  .price-table__price-col::before {
+    color: var(--color-primary-dark) !important;
+  }
+
+  .pricing__note {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--color-ink-faint);
+    max-width: 60ch;
+  }
+
+  @media (min-width: 640px) {
+    .price-table tbody tr {
+      grid-template-columns: 2.2fr 0.9fr 0.7fr;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .price-table td[data-label]::before {
+      content: none;
+    }
+
+    .price-table__price-col {
+      text-align: right;
+    }
+  }
+</style>

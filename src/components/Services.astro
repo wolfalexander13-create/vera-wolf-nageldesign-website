@@ -1,0 +1,112 @@
+---
+import { services } from '../data/services';
+---
+
+<section id="leistungen" class="services section-pad">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Leistungen</p>
+      <h2 class="section-title">Was Sie bei mir erwarten dürfen</h2>
+      <p class="section-lede">
+        Von der pflegenden Maniküre bis zur präzisen Modellage — jede
+        Leistung mit Blick auf Langlebigkeit und Nagelgesundheit. Tiefere
+        Erklärungen zu den Techniken finden Sie im
+        <a href="#wissen">Nagel-Lexikon</a>.
+      </p>
+    </div>
+
+    <ul class="service-grid">
+      {
+        services.map((service) => (
+          <li class="service-card">
+            <h3>{service.name}</h3>
+            <p>{service.description}</p>
+            {service.glossarySlug && (
+              <a class="service-card__link" href={`#glossar-${service.glossarySlug}`}>
+                Mehr zur Technik
+                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                  <path
+                    d="M3 8h9M8 3l5 5-5 5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services {
+    background: var(--color-surface);
+  }
+
+  .service-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    padding: 1.8rem 1.7rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-m);
+    background: var(--color-bg);
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .service-card:hover {
+    border-color: var(--color-primary-soft);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .service-card h3 {
+    font-size: 1.18rem;
+  }
+
+  .service-card p {
+    margin-top: 0.65rem;
+    color: var(--color-ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .service-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .service-card__link svg {
+    transition: transform 0.2s ease;
+  }
+
+  .service-card__link:hover svg {
+    transform: translateX(3px);
+  }
+
+  @media (min-width: 640px) {
+    .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .service-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

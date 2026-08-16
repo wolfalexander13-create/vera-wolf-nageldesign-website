@@ -1,0 +1,302 @@
+---
+import PhotoFrame from './PhotoFrame.astro';
+import { portfolio, techniqueLabels, type Technique } from '../data/portfolio';
+
+const filters: Array<{ value: Technique | 'alle'; label: string }> = [
+  { value: 'alle', label: 'Alle' },
+  ...(Object.entries(techniqueLabels) as [Technique, string][]).map(([value, label]) => ({
+    value,
+    label,
+  })),
+];
+---
+
+<section id="referenzen" class="portfolio section-pad">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Referenzen</p>
+      <h2 class="section-title">Aus dem Studio</h2>
+      <p class="section-lede">
+        Eine Auswahl aktueller Arbeiten. Sobald reale Fotos vorliegen,
+        ersetzen sie automatisch die Platzhalter unten — einfach Dateien in
+        <code>/public/images/portfolio/</code> mit dem passenden Dateinamen
+        ablegen.
+      </p>
+    </div>
+
+    <div class="portfolio__filters" role="group" aria-label="Nach Technik filtern">
+      {
+        filters.map((filter, i) => (
+          <button
+            type="button"
+            class="portfolio__filter"
+            data-filter={filter.value}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            {filter.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <ul class="portfolio__grid" id="portfolio-grid">
+      {
+        portfolio.map((item, index) => (
+          <li class="portfolio__cell" data-technique={item.technique}>
+            <button
+              type="button"
+              class="portfolio__trigger"
+              data-index={index}
+              aria-label={`Bild vergrößern: ${item.alt}`}
+            >
+              <PhotoFrame
+                src={item.image}
+                alt={item.alt}
+                label={techniqueLabels[item.technique]}
+                ratio="1 / 1"
+              />
+              {item.beforeAfter && <span class="portfolio__badge">Vorher / Nachher</span>}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <dialog id="portfolio-lightbox" class="lightbox" aria-label="Bildansicht">
+    <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Schließen">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <button type="button" class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" aria-label="Vorheriges Bild">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img id="lightbox-image" src="" alt="" />
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+    <button type="button" class="lightbox__nav lightbox__nav--next" id="lightbox-next" aria-label="Nächstes Bild">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </dialog>
+</section>
+
+<style>
+  .portfolio__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .portfolio__filter {
+    padding: 0.55em 1.2em;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-ink-soft);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .portfolio__filter:hover {
+    border-color: var(--color-primary-soft);
+  }
+
+  .portfolio__filter[aria-pressed='true'] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .portfolio__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+  }
+
+  .portfolio__cell.is-hidden {
+    display: none;
+  }
+
+  .portfolio__trigger {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--radius-m);
+    overflow: hidden;
+  }
+
+  .portfolio__trigger :global(.photo-frame) {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .portfolio__trigger:hover :global(.photo-frame) {
+    transform: scale(1.03);
+  }
+
+  .portfolio__badge {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0.6rem;
+    background: rgba(36, 26, 23, 0.72);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.3em 0.7em;
+    border-radius: 999px;
+  }
+
+  @media (min-width: 640px) {
+    .portfolio__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .portfolio__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Lightbox */
+  .lightbox {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: min(90vw, 900px);
+    width: 100%;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(20, 14, 12, 0.86);
+  }
+
+  .lightbox__figure {
+    margin: 0;
+    background: var(--color-ink);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+  }
+
+  .lightbox__figure img {
+    width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    background: #000;
+  }
+
+  .lightbox__figure figcaption {
+    padding: 0.9rem 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+  }
+
+  .lightbox__close {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .lightbox__nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .lightbox__nav--prev {
+    left: 1.2rem;
+  }
+
+  .lightbox__nav--next {
+    right: 1.2rem;
+  }
+</style>
+
+<script>
+  import { portfolio, techniqueLabels } from '../data/portfolio';
+
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('.portfolio__filter');
+  const cells = document.querySelectorAll<HTMLLIElement>('.portfolio__cell');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      filterButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      cells.forEach((cell) => {
+        const matches = filter === 'alle' || cell.dataset.technique === filter;
+        cell.classList.toggle('is-hidden', !matches);
+      });
+    });
+  });
+
+  const dialog = document.getElementById('portfolio-lightbox') as HTMLDialogElement | null;
+  const image = document.getElementById('lightbox-image') as HTMLImageElement | null;
+  const caption = document.getElementById('lightbox-caption');
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+
+  let currentIndex = 0;
+
+  function show(index: number) {
+    const total = portfolio.length;
+    currentIndex = (index + total) % total;
+    const item = portfolio[currentIndex];
+    if (image && item) {
+      image.src = item.image;
+      image.alt = item.alt;
+    }
+    if (caption && item) {
+      caption.textContent = `${techniqueLabels[item.technique]} — ${item.alt}`;
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.portfolio__trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const index = Number(trigger.dataset.index ?? 0);
+      show(index);
+      dialog?.showModal();
+    });
+  });
+
+  closeBtn?.addEventListener('click', () => dialog?.close());
+  prevBtn?.addEventListener('click', () => show(currentIndex - 1));
+  nextBtn?.addEventListener('click', () => show(currentIndex + 1));
+
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  dialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') show(currentIndex - 1);
+    if (event.key === 'ArrowRight') show(currentIndex + 1);
+  });
+</script>

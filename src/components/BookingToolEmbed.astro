@@ -1,0 +1,43 @@
+---
+// ZIELZUSTAND (aktuell NICHT aktiv) — Platzhalter für ein echtes
+// Online-Buchungstool (z. B. Fresha, Treatwell, Calendly).
+//
+// TODO sobald ein Tool ausgewählt ist:
+//   1. Embed-Skript/iFrame des Anbieters hier einsetzen (z. B. Fresha
+//      Booking-Widget-Script oder Calendly-iFrame).
+//   2. In Contact.astro das Flag `BOOKING_TOOL_ACTIVE` auf `true` setzen,
+//      damit diese Komponente statt <BookingRequestForm /> gerendert wird.
+//   3. Diesen Platzhalter-Hinweis entfernen.
+---
+
+<div class="booking-embed-placeholder">
+  <p class="booking-embed-placeholder__tag">TODO — Buchungstool-Integration</p>
+  <p>
+    Hier wird das Embed eines echten Online-Buchungstools eingebunden,
+    sobald eines ausgewählt ist (z. B. Fresha oder Calendly). Die
+    Komponentenstruktur ist vorbereitet — das Embed-Skript/iFrame kann
+    direkt in <code>BookingToolEmbed.astro</code> ergänzt werden.
+  </p>
+</div>
+
+<style>
+  .booking-embed-placeholder {
+    border: 1px dashed var(--color-primary-soft);
+    border-radius: var(--radius-m);
+    padding: 2rem;
+    background: var(--color-accent-pale);
+    color: var(--color-ink-soft);
+    font-size: 0.9rem;
+  }
+
+  .booking-embed-placeholder__tag {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.6rem;
+  }
+
+  .booking-embed-placeholder code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.85em;
+  }
+</style>

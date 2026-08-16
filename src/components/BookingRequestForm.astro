@@ -1,0 +1,209 @@
+---
+// AKTIVE Terminbuchungs-Variante (Übergangslösung).
+// Da aktuell kein Online-Buchungssystem existiert, sammelt dieses Formular
+// Name, Wunschleistung und Wunschtermin und öffnet einen vorausgefüllten
+// E-Mail-Entwurf. Die Dauer-Gruppen (kurz/lang) machen von Anfang an
+// sichtbar, dass Termine unterschiedlich lang dauern — das kann aktuell
+// kein lokaler Wettbewerber online abbilden.
+//
+// Sobald ein echtes Buchungstool (z. B. Fresha, Calendly) angebunden ist,
+// diese Komponente in Contact.astro durch <BookingToolEmbed /> ersetzen
+// (Flag `BOOKING_TOOL_ACTIVE` umschalten).
+
+const bookingGroups = [
+  {
+    label: 'Kurze Termine · ca. 30–60 Minuten',
+    options: [
+      'Russische Maniküre (ohne Farbe)',
+      'Russische Maniküre mit Gellack',
+      'Spa-Maniküre',
+      'Naturnagelverstärkung / -stärkung',
+      'Anpassung eines mitgebrachten Press-On-Sets',
+      'Entfernen von Fremdmodellage',
+    ],
+  },
+  {
+    label: 'Längere Termine · ca. 75–130 Minuten',
+    options: [
+      'Neumodellage Gel — Square / klassische Form',
+      'Neumodellage Gel — Russische Mandel, Stiletto oder Ballerina',
+      'Refill / Auffüllung Gel-Modellage',
+      'Gel-X Neuset',
+      'Gel-X Refill',
+    ],
+  },
+  {
+    label: 'Sonstiges',
+    options: ['Individuelles Press-On-Set', 'Ich bin mir noch unsicher / möchte mich beraten lassen'],
+  },
+];
+---
+
+<form class="booking-form" id="booking-form" novalidate>
+  <p class="booking-form__intro">
+    Noch ohne Online-Kalender — schreiben Sie mir, welche Leistung und
+    welcher Wunschtermin Ihnen vorschweben, ich melde mich zeitnah mit einer
+    Terminbestätigung zurück.
+  </p>
+
+  <div class="booking-form__row">
+    <label for="bf-name">Name</label>
+    <input type="text" id="bf-name" name="name" autocomplete="name" required />
+  </div>
+
+  <div class="booking-form__row booking-form__row--split">
+    <div>
+      <label for="bf-email">E-Mail</label>
+      <input type="email" id="bf-email" name="email" autocomplete="email" required />
+    </div>
+    <div>
+      <label for="bf-phone">Telefon (optional)</label>
+      <input type="tel" id="bf-phone" name="phone" autocomplete="tel" />
+    </div>
+  </div>
+
+  <div class="booking-form__row">
+    <label for="bf-service">Gewünschte Leistung</label>
+    <select id="bf-service" name="service" required>
+      <option value="" disabled selected>Bitte wählen</option>
+      {
+        bookingGroups.map((group) => (
+          <optgroup label={group.label}>
+            {group.options.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </optgroup>
+        ))
+      }
+    </select>
+  </div>
+
+  <div class="booking-form__row">
+    <label for="bf-date">Wunschtermin (Datum / Uhrzeit)</label>
+    <input type="text" id="bf-date" name="date" placeholder="z. B. Freitag Nachmittag, KW 34" required />
+  </div>
+
+  <div class="booking-form__row">
+    <label for="bf-message">Nachricht (optional)</label>
+    <textarea id="bf-message" name="message" rows="3"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn--primary">Terminanfrage senden</button>
+  <p class="booking-form__status" id="booking-form-status" role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .booking-form__intro {
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+    margin-bottom: 0.3rem;
+  }
+
+  .booking-form__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .booking-form__row--split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.1rem;
+  }
+
+  .booking-form__row--split > div {
+    min-width: 0;
+  }
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+    width: 100%;
+    min-width: 0;
+    padding: 0.75em 0.9em;
+    border-radius: var(--radius-s);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-ink);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--color-primary);
+  }
+
+  .booking-form__status {
+    font-size: 0.85rem;
+    color: var(--color-primary-dark);
+    min-height: 1.2em;
+  }
+
+  @media (min-width: 520px) {
+    .booking-form__row--split {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script>
+  import { site } from '../data/site';
+
+  const form = document.getElementById('booking-form') as HTMLFormElement | null;
+  const status = document.getElementById('booking-form-status');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '');
+    const email = String(data.get('email') ?? '');
+    const phone = String(data.get('phone') ?? '');
+    const service = String(data.get('service') ?? '');
+    const date = String(data.get('date') ?? '');
+    const message = String(data.get('message') ?? '');
+
+    const body = [
+      `Name: ${name}`,
+      `E-Mail: ${email}`,
+      phone && `Telefon: ${phone}`,
+      `Gewünschte Leistung: ${service}`,
+      `Wunschtermin: ${date}`,
+      message && `Nachricht: ${message}`,
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    const hasRealEmail = site.email.includes('@');
+
+    if (hasRealEmail) {
+      const mailto = `mailto:${site.email}?subject=${encodeURIComponent(
+        'Terminanfrage über die Website'
+      )}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      if (status) {
+        status.textContent = 'Ihr E-Mail-Programm öffnet sich mit der vorausgefüllten Anfrage.';
+      }
+    } else if (status) {
+      status.textContent =
+        'Die Online-Anfrage ist noch nicht aktiv — bitte kontaktieren Sie uns bis dahin per WhatsApp oder Telefon (siehe Kontaktdaten oben).';
+    }
+  });
+</script>

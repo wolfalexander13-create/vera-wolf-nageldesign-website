@@ -1,0 +1,184 @@
+---
+import PhotoFrame from './PhotoFrame.astro';
+---
+
+<section id="start" class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">Nagelstudio · March bei Freiburg im Breisgau</p>
+      <h1 class="hero__title">
+        Vera Wolf <span>Nageldesign</span>
+      </h1>
+      <p class="hero__claim">Ein stiller Ort für gepflegte Hände.</p>
+      <p class="hero__lede">
+        Präzise Modellage, apparative Maniküre und kompromisslose
+        Naturnagelgesundheit — für Kundinnen, denen Haltbarkeit und
+        handwerkliche Sorgfalt wichtiger sind als der schnellste Termin.
+      </p>
+
+      <div class="hero__actions">
+        <a href="#kontakt" class="btn btn--primary">Termin buchen</a>
+        <a href="#leistungen" class="btn btn--ghost">Leistungen ansehen</a>
+      </div>
+
+      <ul class="hero__trust">
+        <li>Mehrfach zertifiziert · Lynis Nailacademy</li>
+        <li>MMA-frei</li>
+        <li>March · Umkirch · Hugstetten · Freiburg</li>
+      </ul>
+    </div>
+
+    <div class="hero__media">
+      <PhotoFrame
+        src="/images/portfolio/portfolio-russische-mandel-01.jpg"
+        alt="Nahaufnahme einer russischen Mandel-Modellage in dezentem Nude-Ton"
+        label="Portfolio-Nahaufnahme: Russische Mandel"
+        ratio="4 / 5"
+        loading="eager"
+        class="hero__media-main"
+      />
+      <PhotoFrame
+        src="/images/studio/studio-arbeitsplatz-01.jpg"
+        alt="Der Arbeitsplatz im Nagelstudio Vera Wolf Nageldesign in March-Hugstetten"
+        label="Studio-Impression"
+        ratio="1 / 1"
+        class="hero__media-accent"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(3rem, 7vw, 5rem);
+    padding-bottom: clamp(3.5rem, 8vw, 6rem);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -12%;
+    right: -12%;
+    width: 46rem;
+    height: 46rem;
+    background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 68%);
+    opacity: 0.7;
+    z-index: -1;
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero__title {
+    font-size: clamp(2.6rem, 7vw, 4.2rem);
+    animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero__title span {
+    display: block;
+    color: var(--color-primary);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero__claim {
+    margin-top: 1.4rem;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--color-ink-soft);
+    animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+
+  .hero__lede {
+    margin-top: 1.2rem;
+    max-width: 46ch;
+    color: var(--color-ink-soft);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.2rem;
+    animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
+  }
+
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.6rem;
+    margin-top: 2.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--color-line);
+    font-size: 0.82rem;
+    color: var(--color-ink-faint);
+    letter-spacing: 0.01em;
+    animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both;
+  }
+
+  .hero__media {
+    position: relative;
+    display: grid;
+    animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+
+  /* :global() nötig, da diese Klassen an die PhotoFrame-Kindkomponente
+     durchgereicht werden und daher außerhalb von Heros eigenem
+     Astro-Scope liegen. */
+  :global(.hero__media-main) {
+    box-shadow: var(--shadow-soft);
+  }
+
+  :global(.hero__media-accent) {
+    display: none;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (min-width: 640px) {
+    .hero__media {
+      max-width: 420px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (min-width: 980px) {
+    .hero__grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 4rem;
+    }
+
+    .hero__media {
+      max-width: none;
+      margin-inline: 0;
+    }
+
+    :global(.hero__media-accent) {
+      display: block;
+      position: absolute;
+      width: 44%;
+      left: -8%;
+      bottom: -12%;
+      border: 6px solid var(--color-bg);
+      box-shadow: var(--shadow-card);
+    }
+  }
+</style>

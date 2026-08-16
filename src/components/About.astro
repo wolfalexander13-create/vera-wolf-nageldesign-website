@@ -1,0 +1,136 @@
+---
+import PhotoFrame from './PhotoFrame.astro';
+import { certificates } from '../data/certificates';
+---
+
+<section id="ueber-mich" class="about section-pad">
+  <div class="wrap about__intro">
+    <div class="about__media">
+      <PhotoFrame
+        src="/images/portrait/portrait-vera-wolf.jpg"
+        alt="Portrait von Vera Wolf, Inhaberin von Vera Wolf Nageldesign, im Studio"
+        label="Portrait: Vera Wolf im Studio"
+        ratio="4 / 5"
+      />
+    </div>
+
+    <div class="about__copy">
+      <p class="eyebrow">Über mich</p>
+      <h2 class="section-title">Vera Wolf — Nageldesignerin aus Leidenschaft</h2>
+      <p class="section-lede">
+        Ich bin Vera Wolf, mehrfach zertifizierte Nageldesignerin und
+        Inhaberin dieses Studios in March-Hugstetten. Mein Anspruch: jede
+        Modellage so präzise und schonend wie möglich zu gestalten — für
+        Hände, die nicht nur schön aussehen, sondern auch gesund bleiben.
+      </p>
+
+      <p class="about__paragraph">
+        Gegründet habe ich dieses Studio, weil ich einen ruhigen Ort schaffen
+        wollte, an dem Qualität keine Frage der Zeit ist. Kein
+        Fließband-Tempo, keine Kompromisse bei Hygiene oder Material — dafür
+        volle Konzentration auf Ihre Nägel, Ihre Wünsche und ein Ergebnis,
+        das hält.
+      </p>
+
+      <div class="about__cert-lead">
+        <h3>Mehrfach zertifiziert bei der Lynis Nailacademy</h3>
+        <p>Ausgebildet von Evelyn Gerz &amp; Milla Spät — als Qualitätsversprechen für jede Behandlung.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="cert-grid">
+      {
+        certificates.map((cert) => (
+          <li class="cert-tile">
+            <div class="cert-tile__image">
+              <PhotoFrame
+                src={cert.image}
+                alt={`Zertifikat „${cert.title}" von der Lynis Nailacademy`}
+                label={cert.title}
+                ratio="4 / 3"
+              />
+            </div>
+            <p class="cert-tile__title">{cert.title}</p>
+            <p class="cert-tile__academy">{cert.academy}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about__intro {
+    display: grid;
+    gap: 2.5rem;
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .about__paragraph {
+    margin-top: 1.1rem;
+    color: var(--color-ink-soft);
+    max-width: 56ch;
+  }
+
+  .about__cert-lead {
+    margin-top: 2.2rem;
+    padding: 1.4rem 1.6rem;
+    background: var(--color-accent-pale);
+    border-radius: var(--radius-m);
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .about__cert-lead h3 {
+    font-size: 1.05rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+  }
+
+  .about__cert-lead p {
+    margin-top: 0.4rem;
+    font-size: 0.92rem;
+    color: var(--color-ink-soft);
+  }
+
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+  }
+
+  .cert-tile__image {
+    margin-bottom: 0.85rem;
+  }
+
+  .cert-tile__title {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    color: var(--color-ink);
+  }
+
+  .cert-tile__academy {
+    font-size: 0.8rem;
+    color: var(--color-ink-faint);
+    margin-top: 0.15rem;
+  }
+
+  @media (min-width: 640px) {
+    .cert-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .about__intro {
+      grid-template-columns: 0.85fr 1.15fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .cert-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

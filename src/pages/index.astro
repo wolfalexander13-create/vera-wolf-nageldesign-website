@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Services from '../components/Services.astro';
+import Trust from '../components/Trust.astro';
+import Pricing from '../components/Pricing.astro';
+import Glossary from '../components/Glossary.astro';
+import Portfolio from '../components/Portfolio.astro';
+import Contact from '../components/Contact.astro';
+import { glossary } from '../data/glossary';
+
+const title = 'Vera Wolf Nageldesign — Nagelstudio in March bei Freiburg im Breisgau';
+const description =
+  'Premium-Nagelstudio in March-Hugstetten bei Freiburg: russische Maniküre, präzise Modellage (Stiletto, Ballerina, Russische Mandel), Gel-X und MMA-freie Materialien. Termine für March, Umkirch, Hugstetten, Bötzingen, Gundelfingen und Freiburg.';
+
+// FAQPage-Schema aus dem Nagel-Lexikon generieren — jeder Begriff als
+// Frage/Antwort-Paar (Frage: "Was ist …?", Antwort: Definition + Vorteil).
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: glossary.map((entry) => ({
+    '@type': 'Question',
+    name: `Was ist ${entry.term}?`,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: `${entry.what} ${entry.advantage}`,
+    },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} structuredData={[faqSchema]}>
+  <Hero />
+  <About />
+  <Services />
+  <Trust />
+  <Pricing />
+  <Glossary />
+  <Portfolio />
+  <Contact />
+</BaseLayout>

@@ -1,0 +1,204 @@
+---
+import { site } from '../data/site';
+import BookingRequestForm from './BookingRequestForm.astro';
+import BookingToolEmbed from './BookingToolEmbed.astro';
+
+// AKTIV: Übergangslösung (Kontaktformular + WhatsApp/Anruf-CTA).
+// Auf `true` setzen, sobald ein echtes Buchungstool angebunden ist
+// (siehe TODO in BookingToolEmbed.astro).
+const BOOKING_TOOL_ACTIVE = false;
+---
+
+<section id="kontakt" class="contact section-pad">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow">Kontakt &amp; Terminbuchung</p>
+      <h2 class="section-title">Ich freue mich auf Sie</h2>
+      <p class="section-lede">
+        In March-Hugstetten, verkehrsgünstig für March, Umkirch, Hugstetten,
+        Bötzingen, Gundelfingen und Freiburg gelegen.
+      </p>
+    </div>
+
+    <div class="contact__grid">
+      <div class="contact__info">
+        <div class="contact__block">
+          <h3>Adresse</h3>
+          <p>{site.address.street}<br />{site.address.zip} {site.address.city}</p>
+          <a class="contact__maps-link" href={site.address.mapsLinkHref} target="_blank" rel="noopener noreferrer">
+            Route planen
+          </a>
+        </div>
+
+        <div class="contact__block">
+          <h3>Kontakt</h3>
+          <ul class="contact__list">
+            <li>
+              <a href={site.phoneHref}>{site.phone}</a>
+              <span class="placeholder-tag">Platzhalter</span>
+            </li>
+            <li>
+              <a href={site.emailHref}>{site.email}</a>
+              <span class="placeholder-tag">Platzhalter</span>
+            </li>
+          </ul>
+          <div class="contact__quick-actions">
+            <a class="btn btn--ghost btn--small" href={site.whatsappHref} target="_blank" rel="noopener noreferrer">
+              WhatsApp schreiben
+            </a>
+            <a class="btn btn--ghost btn--small" href={site.phoneHref}>Anrufen</a>
+          </div>
+        </div>
+
+        <div class="contact__block">
+          <h3>Öffnungszeiten</h3>
+          <ul class="contact__hours">
+            {
+              site.openingHours.map((entry) => (
+                <li>
+                  <span>{entry.day}</span>
+                  <span class={entry.hours === '[PLATZHALTER]' ? 'placeholder-tag' : ''}>
+                    {entry.hours}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="contact__map">
+          <iframe
+            title="Anfahrtskarte: Vera Wolf Nageldesign, Landstraße 39, 79232 March-Hugstetten"
+            src={site.address.mapsEmbedSrc}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+
+      <div class="contact__booking">
+        <h3>Termin anfragen</h3>
+        {BOOKING_TOOL_ACTIVE ? <BookingToolEmbed /> : <BookingRequestForm />}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--color-surface);
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+  }
+
+  .contact__grid > * {
+    min-width: 0;
+  }
+
+  .contact__block {
+    margin-bottom: 2.2rem;
+  }
+
+  .contact__block h3 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-body);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.7rem;
+  }
+
+  .contact__block p {
+    color: var(--color-ink-soft);
+    line-height: 1.6;
+  }
+
+  .contact__maps-link {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .contact__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .contact__list a {
+    text-decoration: none;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .contact__quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1rem;
+  }
+
+  .contact__hours {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .contact__hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.92rem;
+    padding-block: 0.35rem;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+
+  .contact__map {
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    aspect-ratio: 4 / 3;
+  }
+
+  .contact__map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .contact__booking {
+    padding: 2rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-l);
+  }
+
+  .contact__booking h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 980px) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 4rem;
+    }
+  }
+</style>
