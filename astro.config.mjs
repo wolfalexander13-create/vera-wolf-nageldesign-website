@@ -1,10 +1,16 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Update `site` to the production domain before launch — required for correct
-// canonical URLs, sitemap.xml entries and Schema.org data.
+// Produktions-Default: die finale Custom-Domain, sobald sie feststeht.
+// Der GitHub-Pages-Vorschau-Workflow (.github/workflows/deploy-pages.yml)
+// überschreibt SITE_URL/SITE_BASE, damit interne Links unter dem
+// Repo-Unterpfad (https://<user>.github.io/<repo>/) korrekt auflösen.
+const site = process.env.SITE_URL ?? 'https://www.vera-wolf-nageldesign.de';
+const base = process.env.SITE_BASE ?? '/';
+
 export default defineConfig({
-  site: 'https://www.vera-wolf-nageldesign.de',
+  site,
+  base,
   compressHTML: true,
   integrations: [
     sitemap({

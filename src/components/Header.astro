@@ -1,17 +1,23 @@
 ---
+import { withBase } from '../utils/url';
+
+// Anker führen auf die Startseite (+ Hash), damit die Navigation auch von
+// Unterseiten (Impressum/Datenschutz) aus funktioniert, die diese
+// Abschnitte selbst nicht enthalten.
+const home = withBase('/');
 const navItems = [
-  { href: '#ueber-mich', label: 'Über mich' },
-  { href: '#leistungen', label: 'Leistungen' },
-  { href: '#preise', label: 'Preise' },
-  { href: '#wissen', label: 'Nagel-Lexikon' },
-  { href: '#referenzen', label: 'Referenzen' },
-  { href: '#kontakt', label: 'Kontakt' },
+  { href: `${home}#ueber-mich`, label: 'Über mich' },
+  { href: `${home}#leistungen`, label: 'Leistungen' },
+  { href: `${home}#preise`, label: 'Preise' },
+  { href: `${home}#wissen`, label: 'Nagel-Lexikon' },
+  { href: `${home}#referenzen`, label: 'Referenzen' },
+  { href: `${home}#kontakt`, label: 'Kontakt' },
 ];
 ---
 
 <header class="site-header" id="site-header">
   <div class="site-header__bar wrap">
-    <a href="#start" class="site-header__brand">
+    <a href={`${home}#start`} class="site-header__brand">
       <span class="site-header__brand-name">Vera Wolf</span>
       <span class="site-header__brand-sub">Nageldesign</span>
     </a>
@@ -29,7 +35,7 @@ const navItems = [
     </nav>
 
     <div class="site-header__actions">
-      <a href="#kontakt" class="btn btn--primary btn--small">Termin buchen</a>
+      <a href={`${home}#kontakt`} class="btn btn--primary btn--small">Termin buchen</a>
       <button
         type="button"
         class="site-header__toggle"

@@ -242,6 +242,7 @@ const filters: Array<{ value: Technique | 'alle'; label: string }> = [
 
 <script>
   import { portfolio, techniqueLabels } from '../data/portfolio';
+  import { withBase } from '../utils/url';
 
   const filterButtons = document.querySelectorAll<HTMLButtonElement>('.portfolio__filter');
   const cells = document.querySelectorAll<HTMLLIElement>('.portfolio__cell');
@@ -271,7 +272,7 @@ const filters: Array<{ value: Technique | 'alle'; label: string }> = [
     currentIndex = (index + total) % total;
     const item = portfolio[currentIndex];
     if (image && item) {
-      image.src = item.image;
+      image.src = withBase(item.image);
       image.alt = item.alt;
     }
     if (caption && item) {

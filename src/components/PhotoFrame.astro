@@ -2,6 +2,8 @@
 // Wiederverwendbarer Bild-Rahmen mit elegantem Platzhalter-Zustand.
 // Sobald unter `src` eine echte Datei mit exakt diesem Namen abgelegt wird,
 // ersetzt sie automatisch den Platzhalter (kein Code-Änderung nötig).
+import { withBase } from '../utils/url';
+
 interface Props {
   src: string;
   alt: string;
@@ -36,7 +38,7 @@ const filename = src.split('/').pop();
     <span class="photo-frame__filename">{filename}</span>
   </span>
   <img
-    src={src}
+    src={withBase(src)}
     alt={alt}
     loading={loading}
     decoding="async"

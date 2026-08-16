@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { withBase } from '../utils/url';
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ const { title, description, heading } = Astro.props;
 <BaseLayout title={title} description={description} noindex>
   <article class="legal section-pad">
     <div class="wrap wrap--narrow">
-      <a class="legal__back" href="/">&larr; Zurück zur Startseite</a>
+      <a class="legal__back" href={withBase('/')}>&larr; Zurück zur Startseite</a>
       <h1>{heading}</h1>
       <div class="legal__content">
         <slot />
