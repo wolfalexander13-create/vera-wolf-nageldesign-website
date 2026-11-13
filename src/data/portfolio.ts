@@ -71,6 +71,8 @@ export const portfolio: PortfolioItem[] = [
     alt: 'Fünf handgefertigte Press-Ons in Schwarz und Bordeaux mit Chrom-Ornamenten, Rosen und Perlen',
     caption: 'Press-On-Set, Chrom und Rosen',
     technique: 'press-ons',
+    // Press-Ons sind nicht mehr im Angebot, daher ausgeblendet.
+    featured: false,
     focus: '50% 50%',
   },
   {
@@ -121,7 +123,6 @@ export const portfolio: PortfolioItem[] = [
     alt: 'Mandelförmige Nägel in Orange mit Halloween-Motiven: Geist, Spinnennetz und Spinne',
     caption: 'Halloween-Nailart',
     technique: 'nailart',
-    featured: false,
     focus: '45% 55%',
   },
 ];

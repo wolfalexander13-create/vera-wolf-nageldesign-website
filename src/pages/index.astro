@@ -3,47 +3,48 @@ import fs from 'node:fs';
 import path from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
-import { pricingCategories } from '../data/pricing';
+import { pricingCategories, pricingIntro, pricingValidFrom } from '../data/pricing';
 import { certificates } from '../data/certificates';
-import { portfolio } from '../data/portfolio';
+import { portfolio, type PortfolioItem } from '../data/portfolio';
 import { withBase } from '../utils/url';
 
-const title = 'Wolf Clawz Nail Design by Vera, Nagelstudio in March bei Freiburg';
+const title = 'WolfClawz Nail Design by Vera, Nageldesign in March-Neuershausen';
 const description =
-  'Gel-X, Modellage und russische Maniküre mit MMA-freien Produkten. Nagelstudio von Vera in March bei Freiburg.';
+  'Naturnagelverstärkung, Gel- und Acrylgel-Modellage und Nailart im Home Studio von Vera in March-Neuershausen bei Freiburg.';
 
-const services = [
-  { name: 'Gel-X', line: 'Verlängerung mit Soft-Gel-Tips, geklebt statt gefräst.' },
-  { name: 'Russische Maniküre', line: 'Trocken, mit feinem Fräser, sauber bis an die Nagelhaut.' },
-  { name: 'Gel-Modellage', line: 'Neuset oder Auffüllen, in der Form Ihrer Wahl.' },
-  { name: 'Naturnagelpflege', line: 'Aufbau und Stärkung für dünne, brüchige Nägel.' },
-  { name: 'Press-Ons', line: 'Handgefertigte Sets in Ihrer Größe, wiederverwendbar.' },
+const offers = [
+  { name: 'Naturnagelverstärkung', line: 'Ich stärke und schütze deine eigenen Nägel, ohne Verlängerung.' },
+  { name: 'Gel-Modellage mit Verlängerung', line: 'Mit Schablone, Tipps oder Dual Form, von Länge S bis Überlänge.' },
+  { name: 'Acrylgel', line: 'Modellage mit Acrylgel, mit oder ohne Verlängerung.' },
+  { name: 'Nailart', line: 'Von French und Cat-Eye bis Handmalerei und 3D-Gel.' },
+  { name: 'Hochzeitsnägel', line: 'Abgestimmt auf dein Kleid, deinen Brautstrauß und dich.' },
 ];
-
-const shapes = [
-  { name: 'Russische Mandel', line: 'Schmal zulaufend, elegant im Alltag.', d: 'M22 170 L22 82 C22 46 40 16 50 10 C60 16 78 46 78 82 L78 170 Q50 196 22 170 Z' },
-  { name: 'Stiletto', line: 'Lang und spitz, für den Auftritt.', d: 'M24 170 L24 92 C24 62 44 22 50 2 C56 22 76 62 76 92 L76 170 Q50 196 24 170 Z' },
-  { name: 'Ballerina', line: 'Gerade Seiten, flache Spitze.', d: 'M22 170 L22 72 L35 14 L65 14 L78 72 L78 170 Q50 196 22 170 Z' },
-  { name: 'Square', line: 'Gerade Kante, die klassische Form.', d: 'M22 170 L22 30 Q22 24 28 24 L72 24 Q78 24 78 30 L78 170 Q50 196 22 170 Z' },
-];
-
-const tabLabels: Record<string, string> = {
-  manikuere: 'Maniküre',
-  modellage: 'Gel-X und Modellage',
-  'press-ons': 'Press-Ons',
-  nailart: 'Nailart',
-};
 
 // Fotos erscheinen nur, wenn die Datei unter public/ wirklich existiert.
 const onDisk = (p: string) => fs.existsSync(path.join(process.cwd(), 'public', p));
 const photos = portfolio.filter((p) => onDisk(p.image));
+const byId = (id: string) => photos.find((p) => p.id === id);
 const heroPhoto = photos.find((p) => p.hero);
-const gallery = photos.filter((p) => !p.hero && p.featured !== false).slice(0, 6);
-const showWork = gallery.length >= 3;
+
+// Die Formen, die Vera anbietet, jeweils mit einem Foto ihrer Arbeit.
+// Neues Foto: in src/data/portfolio.ts eintragen und die id hier setzen.
+const shapes: { name: string; line: string; photo?: PortfolioItem }[] = [
+  { name: 'Square', line: 'Gerade Seiten, gerade Kante.', photo: byId('square-babyblau') },
+  { name: 'Mandel', line: 'Schmal zulaufend.', photo: byId('mandel-orange-blueten') },
+  { name: 'Oval', line: 'Rund und natürlich.', photo: byId('bordeaux-cateye') },
+];
+const shapeIds = new Set(shapes.map((s) => s.photo?.id));
+const gallery = photos.filter((p) => !p.hero && p.featured !== false && !shapeIds.has(p.id)).slice(0, 3);
+
 const portrait = '/images/portrait/vera-wolf.jpg';
 const hasPortrait = onDisk(portrait);
 
-const hours = site.openingHours.filter((h) => !h.hours.includes('PLATZHALTER'));
+// Studio-Fotos: Dateien unter public/images/studio/ ablegen, sie erscheinen automatisch.
+const studioDir = path.join(process.cwd(), 'public', 'images', 'studio');
+const studioPhotos = fs.existsSync(studioDir)
+  ? fs.readdirSync(studioDir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort().slice(0, 2)
+  : [];
+
 const hasPhone = !site.phone.includes('PLATZHALTER');
 const hasMail = !site.email.includes('PLATZHALTER');
 const hasInstagram = site.instagramHref.startsWith('http');
@@ -54,7 +55,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
     <div class="container hero__grid">
       <div class="hero__text">
         <h1 id="hero-title">Schöne Nägel, gesunder Naturnagel.</h1>
-        <p class="lead">Gel&#8209;X, Modellage und Maniküre von Vera, MMA&#8209;frei in March.</p>
+        <p class="lead">Ich modelliere deine Nägel mit Gel und Acrylgel, in Neuershausen.</p>
         <div class="hero__actions">
           <a class="btn" href="#termin">Termin anfragen</a>
           <a class="link" href="#preise">Zu den Preisen</a>
@@ -85,12 +86,15 @@ const hasInstagram = site.instagramHref.startsWith('http');
     </div>
   </section>
 
-  <section class="services" id="leistungen" aria-labelledby="services-title">
+  <section class="services" id="angebot" aria-labelledby="services-title">
     <div class="container services__grid">
-      <h2 id="services-title">Was Vera für Ihre Nägel tut</h2>
+      <div class="services__head">
+        <h2 id="services-title">Das biete ich dir an</h2>
+        <p class="services__note">Ich verwende nur Produkte, die der Kosmetikverordnung entsprechen.</p>
+      </div>
       <dl class="rows">
         {
-          services.map((s) => (
+          offers.map((s) => (
             <div class="rows__item">
               <dt>{s.name}</dt>
               <dd>{s.line}</dd>
@@ -101,17 +105,77 @@ const hasInstagram = site.instagramHref.startsWith('http');
     </div>
   </section>
 
+  <section class="shapes" id="formen" aria-labelledby="shapes-title">
+    <div class="container">
+      <h2 id="shapes-title">Diese Nagelformen biete ich an</h2>
+      <ul class="shapes__grid">
+        {
+          shapes.map((s) => (
+            <li class="shape">
+              <div class="shape__frame" data-slot={`form-${s.name.toLowerCase()}`} data-alt={`Foto einer ${s.name}-Modellage`}>
+                {s.photo && (
+                  <img
+                    src={withBase(s.photo.image)}
+                    alt={s.photo.alt}
+                    width={s.photo.width}
+                    height={s.photo.height}
+                    style={`object-position: ${s.photo.focus ?? '50% 50%'}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </div>
+              <h3>{s.name}</h3>
+              <p>{s.line}</p>
+            </li>
+          ))
+        }
+        <li class="shape shape--special">
+          <svg class="shape__nails" viewBox="0 0 220 200" aria-hidden="true" focusable="false">
+            <path d="M24 170 L24 92 C24 62 44 22 50 2 C56 22 76 62 76 92 L76 170 Q50 196 24 170 Z" />
+            <path d="M132 170 L132 82 C132 46 150 16 160 10 C170 16 188 46 188 82 L188 170 Q160 196 132 170 Z" />
+          </svg>
+          <h3>Sonderformen</h3>
+          <p>Stiletto, Edge und russische Mandel auf Anfrage. Dafür suche ich gerade <a class="link" href="#termin">Modelle</a>.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="technique" aria-labelledby="technique-title">
+    <div class="container technique__grid">
+      <div class="technique__text">
+        <h2 id="technique-title">Meine Technik</h2>
+        <p class="lead">
+          Ich arbeite sowohl im Old School als auch im New Style. Welche Statik ich wähle, hängt von deinem
+          Naturnagel, deinem Wunsch und der Nagelform ab.
+        </p>
+        <p>So halten deine Nägel länger und sehen schöner aus.</p>
+      </div>
+      <dl class="technique__styles">
+        <div>
+          <dt>New Style</dt>
+          <dd>Bei einem ausgeprägten Naturtunnel arbeite ich einen Square zum Beispiel im New Style.</dd>
+        </div>
+        <div>
+          <dt>Old School</dt>
+          <dd>Bei einem flachen Tunnel und einem platten Nagelbett setze ich eine Mandel eher im Old School um.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
   {
-    showWork && (
+    gallery.length >= 3 && (
       <section class="work" id="arbeiten" aria-labelledby="work-title">
         <div class="container">
           <div class="work__head">
-            <h2 id="work-title">Sets aus Veras Händen</h2>
+            <h2 id="work-title">Frisch aus meinem Studio</h2>
             {hasInstagram && <a class="link" href={site.instagramHref} rel="me noopener">Mehr auf Instagram</a>}
           </div>
-          <ul class="work__grid">
-            {gallery.map((p, i) => (
-              <li class={i === 0 ? 'work__lead' : undefined}>
+          <ul class="work__grid work__grid--three">
+            {gallery.map((p) => (
+              <li>
                 <figure class="work__item">
                   <div class="work__frame">
                     <img
@@ -134,30 +198,11 @@ const hasInstagram = site.instagramHref.startsWith('http');
     )
   }
 
-  <section class="shapes" aria-labelledby="shapes-title">
-    <div class="container">
-      <h2 id="shapes-title">Vier Formen, eine davon Ihre</h2>
-      <ul class="shapes__grid">
-        {
-          shapes.map((s) => (
-            <li class="shape">
-              <svg class="shape__nail" viewBox="0 0 100 200" aria-hidden="true" focusable="false">
-                <path d={s.d} />
-              </svg>
-              <h3>{s.name}</h3>
-              <p>{s.line}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
   <section class="prices" id="preise" aria-labelledby="prices-title">
     <div class="container">
       <div class="prices__head">
         <h2 id="prices-title">Preise und Dauer</h2>
-        <p class="prices__note">Richtpreise vor der Eröffnung. Die endgültige Liste folgt.</p>
+        <p class="prices__note">{pricingIntro}</p>
       </div>
       <div class="switch" data-switch>
         <div class="tabs" role="tablist" aria-label="Preiskategorie">
@@ -171,7 +216,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
                 aria-selected={i === 0 ? 'true' : 'false'}
                 tabindex={i === 0 ? 0 : -1}
               >
-                {tabLabels[c.slug] ?? c.title}
+                {c.tab}
               </button>
             ))
           }
@@ -194,6 +239,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
                       <th scope="row">
                         {it.name}
                         {it.description && <span class="price-table__desc">{it.description}</span>}
+                        {it.note && <span class="price-table__desc">{it.note}</span>}
                       </th>
                       <td>{it.duration ?? ''}</td>
                       <td class="num">{it.price}</td>
@@ -205,24 +251,26 @@ const hasInstagram = site.instagramHref.startsWith('http');
           ))
         }
       </div>
+      <p class="prices__valid">Gültig ab {pricingValidFrom}.</p>
     </div>
   </section>
 
-  <section class="studio" id="studio" aria-labelledby="studio-title">
+  <section class="studio" id="ueber-mich" aria-labelledby="about-title">
     <div class="container studio__grid">
+      {
+        hasPortrait && (
+          <figure class="portrait">
+            <img src={withBase(portrait)} alt="Vera Wolf in rosa Schürze" width="560" height="700" loading="lazy" decoding="async" />
+          </figure>
+        )
+      }
       <div class="studio__statement">
-        <h2 id="studio-title">Kein MMA. Gel&#8209;X wird geklebt, nicht gefräst.</h2>
-        <p class="lead">Vera arbeitet so, dass Ihr eigener Nagel darunter gesund bleibt.</p>
+        <h2 id="about-title">Hallo, ich bin Vera.</h2>
+        <p class="lead">
+          <span class="fill" data-fill="about">Hier erzählst du, wer du bist und wie du zum Nageldesign gekommen bist</span>
+        </p>
       </div>
       <div class="studio__certs">
-        {
-          hasPortrait && (
-            <figure class="portrait">
-              <img src={withBase(portrait)} alt="Vera Wolf in rosa Schürze" width="560" height="700" loading="lazy" decoding="async" />
-              <figcaption>Vera Wolf</figcaption>
-            </figure>
-          )
-        }
         <h3>Geschult an der Lynis Nailacademy</h3>
         <ul class="certs">
           {certificates.map((c) => <li>{c.title}</li>)}
@@ -232,11 +280,23 @@ const hasInstagram = site.instagramHref.startsWith('http');
     </div>
   </section>
 
-
   <section class="visit" id="termin" aria-labelledby="visit-title">
     <div class="container visit__grid">
       <div class="visit__facts">
-        <h2 id="visit-title">Termin anfragen in March</h2>
+        <h2 id="visit-title">Mein Home Studio in Neuershausen</h2>
+        {
+          studioPhotos.length > 0 ? (
+            <div class="studio-photos">
+              {studioPhotos.map((f) => (
+                <figure class="studio-photos__item">
+                  <img src={withBase(`/images/studio/${f}`)} alt="Einblick in Veras Home Studio" loading="lazy" decoding="async" width="1200" height="900" />
+                </figure>
+              ))}
+            </div>
+          ) : (
+            <p><span class="fill" data-fill="studio">Fotos vom Home Studio folgen</span></p>
+          )
+        }
         <dl class="facts">
           <div>
             <dt>Adresse</dt>
@@ -246,35 +306,23 @@ const hasInstagram = site.instagramHref.startsWith('http');
             </dd>
           </div>
           <div>
-            <dt>Öffnungszeiten</dt>
-            <dd>
-              {
-                hours.length > 1 ? (
-                  <ul class="hours">
-                    {hours.map((h) => (
-                      <li><span>{h.day}</span> <span>{h.hours}</span></li>
-                    ))}
-                  </ul>
-                ) : (
-                  <span class="fill" data-fill="hours">Öffnungszeiten folgen zur Eröffnung</span>
-                )
-              }
-            </dd>
+            <dt>Termine</dt>
+            <dd>Nach Vereinbarung</dd>
           </div>
           <div>
             <dt>Kontakt</dt>
             <dd>
-              {hasPhone ? <a class="link" href={site.phoneHref}>{site.phone}</a> : <span class="fill" data-fill="phone">Telefonnummer folgt</span>}
+              {hasInstagram && <a class="link" href={site.instagramHref} rel="me noopener">@WolfClawz.byVera auf Instagram</a>}
+              {hasPhone && <><br /><a class="link" href={site.phoneHref}>{site.phone}</a></>}
               {hasMail && <><br /><a class="link" href={site.emailHref}>{site.email}</a></>}
             </dd>
           </div>
         </dl>
-        <p class="visit__area">Für Kundinnen aus March, Umkirch, Hugstetten, Bötzingen, Gundelfingen und Freiburg.</p>
       </div>
 
       <form class="booking" data-endpoint="" novalidate>
         <div class="field">
-          <label for="f-name">Ihr Name</label>
+          <label for="f-name">Dein Name</label>
           <input id="f-name" name="name" type="text" autocomplete="name" required />
         </div>
         <div class="field">
@@ -282,10 +330,17 @@ const hasInstagram = site.instagramHref.startsWith('http');
           <input id="f-contact" name="contact" type="text" autocomplete="email" required />
         </div>
         <div class="field">
-          <label for="f-service">Leistung</label>
+          <label for="f-service">Was möchtest du?</label>
           <select id="f-service" name="service">
-            {services.map((s) => <option>{s.name}</option>)}
-            <option>Noch unsicher, bitte beraten</option>
+            <option>Naturnagelverstärkung</option>
+            <option>Neumodellage</option>
+            <option>Refill</option>
+            <option>Nailart</option>
+            <option>Hochzeitsnägel</option>
+            <option>Sonderform</option>
+            <option>Modell für Stiletto oder russische Mandel</option>
+            <option>Entfernung Fremdarbeit</option>
+            <option>Ich bin noch unsicher</option>
           </select>
         </div>
         <div class="field">
@@ -336,22 +391,22 @@ const hasInstagram = site.instagramHref.startsWith('http');
         const bad = fields.find((f) => !f.checkValidity());
         if (bad) {
           bad.setAttribute('aria-describedby', help.id);
-          help.textContent = 'Bitte Name und Telefon oder E-Mail angeben, damit Vera sich melden kann.';
+          help.textContent = 'Bitte gib deinen Namen und Telefon oder E-Mail an, damit ich mich melden kann.';
           bad.focus();
           return;
         }
         if (!form.dataset.endpoint) {
-          help.textContent = 'Es wurde nichts gesendet: das Formular ist noch nicht angeschlossen.';
+          help.textContent = 'Es wurde nichts gesendet: das Formular ist noch nicht angeschlossen. Schreib mir gern auf Instagram.';
           return;
         }
         fetch(form.dataset.endpoint, { method: 'POST', body: new FormData(form) })
           .then((r) => {
             help.textContent = r.ok
-              ? 'Danke. Vera meldet sich mit einem Terminvorschlag.'
-              : 'Das hat nicht geklappt. Bitte in einer Minute noch einmal versuchen.';
+              ? 'Danke. Ich melde mich bei dir mit einem Terminvorschlag.'
+              : 'Das hat nicht geklappt. Bitte versuch es in einer Minute noch einmal.';
           })
           .catch(() => {
-            help.textContent = 'Das hat nicht geklappt. Bitte in einer Minute noch einmal versuchen.';
+            help.textContent = 'Das hat nicht geklappt. Bitte versuch es in einer Minute noch einmal.';
           });
       });
     });

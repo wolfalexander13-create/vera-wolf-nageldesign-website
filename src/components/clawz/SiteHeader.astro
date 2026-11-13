@@ -11,15 +11,15 @@ const to = (hash: string) => (home ? hash : withBase('/') + hash);
 
 <header class="nav">
   <div class="container nav__inner">
-    <a class="nav__home" href={withBase('/')} aria-label="Wolf Clawz, zur Startseite">
+    <a class="nav__home" href={withBase('/')} aria-label="WolfClawz, zur Startseite">
       <Logo />
     </a>
     <nav aria-label="Hauptnavigation">
       <ul class="nav__links">
-        <li><a href={to('#leistungen')}>Leistungen</a></li>
-        <li><a href={to('#arbeiten')}>Arbeiten</a></li>
+        <li><a href={to('#angebot')}>Angebot</a></li>
+        <li><a href={to('#formen')}>Formen</a></li>
         <li><a href={to('#preise')}>Preise</a></li>
-        <li><a href={to('#studio')}>Studio</a></li>
+        <li><a href={to('#ueber-mich')}>Über mich</a></li>
       </ul>
     </nav>
     <a class="btn btn--quiet nav__action" href={to('#termin')}>Termin anfragen</a>

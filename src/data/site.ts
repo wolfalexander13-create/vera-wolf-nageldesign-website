@@ -3,15 +3,15 @@
 // werden an mehreren Stellen verwendet (Kontakt, Footer, Schema.org).
 
 export const site = {
-  name: 'Wolf Clawz',
+  name: 'WolfClawz',
   addition: 'Nail Design by Vera',
-  fullName: 'Wolf Clawz Nail Design by Vera',
+  fullName: 'WolfClawz Nail Design by Vera',
   owner: 'Vera Wolf',
   tagline: 'Rosa & Gold, Eleganz mit Naturtönen',
   positioning:
-    'Gel-X, Modellage und Maniküre mit MMA-freien Produkten, mit Blick auf die Gesundheit des Naturnagels. In March bei Freiburg.',
+    'Naturnagelverstärkung, Gel- und Acrylgel-Modellage und Nailart im Home Studio in March-Neuershausen bei Freiburg.',
 
-  // Logo-Dateien aus dem Design System „Wolf Clawz“. Sobald die PNGs unter
+  // Logo-Dateien aus dem Design System „WolfClawz“. Sobald die PNGs unter
   // public/images/logo/ liegen, erscheinen sie automatisch statt des
   // Text-Platzhalters (siehe src/components/clawz/Logo.astro).
   logo: '/images/logo/wolf-clawz-logo-freigestellt.png',
@@ -21,7 +21,7 @@ export const site = {
   address: {
     street: 'Häglestraße 5',
     zip: '79232',
-    city: 'March',
+    city: 'March-Neuershausen',
     region: 'Baden-Württemberg',
     country: 'DE',
     mapsEmbedSrc:
