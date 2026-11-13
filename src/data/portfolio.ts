@@ -37,6 +37,8 @@ export interface PortfolioItem {
   featured?: boolean;
   /** Bildausschnitt für object-position, z. B. '50% 60%'. */
   focus?: string;
+  /** 'saisonal' zeigt das Foto im Abschnitt „Saisonale Nägel“ statt in der Galerie. */
+  section?: 'saisonal';
   /** Optional: kennzeichnet ein Vorher-Nachher-Paar. */
   beforeAfter?: boolean;
 }
@@ -121,8 +123,80 @@ export const portfolio: PortfolioItem[] = [
     width: 2000,
     height: 1702,
     alt: 'Mandelförmige Nägel in Orange mit Halloween-Motiven: Geist, Spinnennetz und Spinne',
-    caption: 'Halloween-Nailart',
+    caption: 'Halloween',
     technique: 'nailart',
+    section: 'saisonal',
     focus: '45% 55%',
+  },
+  {
+    id: 'stiletto-weihnachten',
+    image: '/images/portfolio/stiletto-weihnachten.jpg',
+    width: 2000,
+    height: 1602,
+    alt: 'Stiletto-Nägel zu Weihnachten mit Zuckerstangen-Streifen, Kränzen, Schneeflocken und goldenen Schleifen',
+    caption: 'Weihnachten',
+    technique: 'nailart',
+    section: 'saisonal',
+    focus: '45% 55%',
+  },
+  {
+    id: 'square-grapefruit',
+    image: '/images/portfolio/square-grapefruit-blueten.jpg',
+    width: 2000,
+    height: 1807,
+    alt: 'Lange Square-Nägel in Pink und Orange mit Grapefruit-Motiven, 3D-Blüten und goldenen Perlen',
+    caption: 'Square, Grapefruit und Blüten',
+    technique: 'nailart',
+    focus: '45% 45%',
+  },
+  {
+    id: 'stiletto-pink-herzen',
+    image: '/images/portfolio/stiletto-pink-herzen.jpg',
+    width: 1775,
+    height: 1956,
+    alt: 'Stiletto-Nägel in Pink mit Herzen, Perlen, Streifen und einer 3D-Schleife',
+    caption: 'Stiletto in Pink',
+    technique: 'stiletto',
+    focus: '40% 55%',
+  },
+  {
+    id: 'oval-cateye-kupfer',
+    image: '/images/portfolio/oval-cateye-kupfer.jpg',
+    width: 1709,
+    height: 1255,
+    alt: 'Kurze ovale Nägel mit kupferfarbenem Cat-Eye-Schimmer auf Marmor',
+    caption: 'Oval, Cat-Eye in Kupfer',
+    technique: 'nailart',
+    focus: '55% 60%',
+  },
+  {
+    id: 'set-bordeaux-rosen',
+    image: '/images/portfolio/set-bordeaux-rosen-chrom.jpg',
+    width: 2000,
+    height: 1506,
+    alt: 'Lange Coffin-Nägel in Schwarz und Bordeaux mit Spitzenmuster, Rosen, Chrom-Linien und Perlen',
+    caption: 'Schwarz und Bordeaux mit Chrom',
+    technique: 'nailart',
+    focus: '50% 50%',
+  },
+  {
+    id: 'set-spikes-silber',
+    image: '/images/portfolio/set-spikes-silber.jpg',
+    width: 2000,
+    height: 1600,
+    alt: 'Lange Coffin-Nägel in Schwarz, Grau und Silber mit Spikes, Ketten und Kreuz-Ornamenten',
+    caption: 'Spikes und Silber',
+    technique: 'nailart',
+    focus: '50% 50%',
+  },
+  {
+    id: 'stiletto-pastell',
+    image: '/images/portfolio/stiletto-pastell-blueten.jpg',
+    width: 1923,
+    height: 2000,
+    alt: 'Lange Stiletto-Nägel in Pastell mit 3D-Blüten, goldenen Ranken und Perlen',
+    caption: 'Stiletto in Pastell',
+    technique: 'stiletto',
+    focus: '50% 40%',
   },
 ];

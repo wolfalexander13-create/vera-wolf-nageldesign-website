@@ -29,12 +29,16 @@ const heroPhoto = photos.find((p) => p.hero);
 // Die Formen, die Vera anbietet, jeweils mit einem Foto ihrer Arbeit.
 // Neues Foto: in src/data/portfolio.ts eintragen und die id hier setzen.
 const shapes: { name: string; line: string; photo?: PortfolioItem }[] = [
-  { name: 'Square', line: 'Gerade Seiten, gerade Kante.', photo: byId('square-babyblau') },
+  { name: 'Square', line: 'Gerade Seiten, gerade Kante.', photo: byId('square-grapefruit') },
   { name: 'Mandel', line: 'Schmal zulaufend.', photo: byId('mandel-orange-blueten') },
-  { name: 'Oval', line: 'Rund und natürlich.', photo: byId('bordeaux-cateye') },
+  { name: 'Oval', line: 'Rund und natürlich.', photo: byId('oval-cateye-kupfer') },
 ];
-const shapeIds = new Set(shapes.map((s) => s.photo?.id));
-const gallery = photos.filter((p) => !p.hero && p.featured !== false && !shapeIds.has(p.id)).slice(0, 3);
+const specialPhoto = byId('stiletto-pink-herzen');
+const shapeIds = new Set([...shapes.map((s) => s.photo?.id), specialPhoto?.id]);
+const gallery = photos
+  .filter((p) => !p.hero && p.featured !== false && !p.section && !shapeIds.has(p.id))
+  .slice(0, 6);
+const seasonal = photos.filter((p) => p.section === 'saisonal');
 
 const portrait = '/images/portrait/vera-wolf.jpg';
 const hasPortrait = onDisk(portrait);
@@ -131,10 +135,19 @@ const hasInstagram = site.instagramHref.startsWith('http');
           ))
         }
         <li class="shape shape--special">
-          <svg class="shape__nails" viewBox="0 0 220 200" aria-hidden="true" focusable="false">
-            <path d="M24 170 L24 92 C24 62 44 22 50 2 C56 22 76 62 76 92 L76 170 Q50 196 24 170 Z" />
-            <path d="M132 170 L132 82 C132 46 150 16 160 10 C170 16 188 46 188 82 L188 170 Q160 196 132 170 Z" />
-          </svg>
+          <div class="shape__frame">
+            {specialPhoto && (
+              <img
+                src={withBase(specialPhoto.image)}
+                alt={specialPhoto.alt}
+                width={specialPhoto.width}
+                height={specialPhoto.height}
+                style={`object-position: ${specialPhoto.focus ?? '50% 50%'}`}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+          </div>
           <h3>Sonderformen</h3>
           <p>Stiletto, Edge und russische Mandel auf Anfrage. Dafür suche ich gerade <a class="link" href="#termin">Modelle</a>.</p>
         </li>
@@ -166,16 +179,16 @@ const hasInstagram = site.instagramHref.startsWith('http');
   </section>
 
   {
-    gallery.length >= 3 && (
+    gallery.length >= 6 && (
       <section class="work" id="arbeiten" aria-labelledby="work-title">
         <div class="container">
           <div class="work__head">
             <h2 id="work-title">Frisch aus meinem Studio</h2>
             {hasInstagram && <a class="link" href={site.instagramHref} rel="me noopener">Mehr auf Instagram</a>}
           </div>
-          <ul class="work__grid work__grid--three">
-            {gallery.map((p) => (
-              <li>
+          <ul class="work__grid">
+            {gallery.map((p, i) => (
+              <li class={i === 0 ? 'work__lead' : undefined}>
                 <figure class="work__item">
                   <div class="work__frame">
                     <img
@@ -254,6 +267,35 @@ const hasInstagram = site.instagramHref.startsWith('http');
       <p class="prices__valid">Gültig ab {pricingValidFrom}.</p>
     </div>
   </section>
+
+  {
+    seasonal.length > 0 && (
+      <section class="seasonal" aria-labelledby="seasonal-title">
+        <div class="container seasonal__grid">
+          <div class="seasonal__head">
+            <h2 id="seasonal-title">Saisonale Nägel</h2>
+            <p class="lead">Zu Halloween, Weihnachten und jeder Jahreszeit dazwischen.</p>
+          </div>
+          {seasonal.map((p) => (
+            <figure class="work__item seasonal__item">
+              <div class="work__frame">
+                <img
+                  src={withBase(p.image)}
+                  alt={p.alt}
+                  width={p.width}
+                  height={p.height}
+                  style={`object-position: ${p.focus ?? '50% 50%'}`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption>{p.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <section class="studio" id="ueber-mich" aria-labelledby="about-title">
     <div class="container studio__grid">

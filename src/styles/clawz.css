@@ -142,6 +142,12 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .portrait { grid-column: 1 / span 4; margin: 0; }
 .portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-lg); }
 
+/* ---------- seasonal ---------- */
+.seasonal { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
+.seasonal__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr); gap: var(--gap-columns); align-items: end; }
+.seasonal__head { display: grid; gap: var(--space-md); align-self: start; }
+.seasonal__item .work__frame { aspect-ratio: 4 / 5; }
+
 /* ---------- visit + form ---------- */
 .visit { padding-block: var(--section-gap) var(--section-gap-s); }
 .visit__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); align-items: start; }
@@ -204,6 +210,8 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
   .services__head, .rows, .studio__statement, .studio__certs, .portrait, .technique__text, .technique__styles, .prices__head h2, .prices__note, .foot__mast, .foot__links { grid-column: 1 / -1; }
   .services__head { position: static; margin-bottom: var(--space-lg); }
   .technique__grid { grid-template-columns: minmax(0, 1fr); }
+  .seasonal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .seasonal__head { grid-column: 1 / -1; }
   .portrait { max-width: 22rem; }
   .rows__item { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); padding-block: var(--space-lg); }
   .shapes__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-2xl); }
