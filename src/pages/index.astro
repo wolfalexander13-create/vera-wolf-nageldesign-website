@@ -10,7 +10,7 @@ import { withBase } from '../utils/url';
 
 const title = 'Wolf Clawz Nail Design by Vera, Nagelstudio in March bei Freiburg';
 const description =
-  'Gel-X, Modellage und russische Maniküre mit MMA-freien Produkten. Nagelstudio von Vera in March-Hugstetten bei Freiburg.';
+  'Gel-X, Modellage und russische Maniküre mit MMA-freien Produkten. Nagelstudio von Vera in March bei Freiburg.';
 
 const services = [
   { name: 'Gel-X', line: 'Verlängerung mit Soft-Gel-Tips, geklebt statt gefräst.' },
@@ -34,13 +34,19 @@ const tabLabels: Record<string, string> = {
   nailart: 'Nailart',
 };
 
-// Portfolio erscheint erst, wenn echte Fotos unter public/images/portfolio/ liegen.
-const photos = portfolio.filter((p) => fs.existsSync(path.join(process.cwd(), 'public', p.image)));
-const showWork = photos.length >= 3;
+// Fotos erscheinen nur, wenn die Datei unter public/ wirklich existiert.
+const onDisk = (p: string) => fs.existsSync(path.join(process.cwd(), 'public', p));
+const photos = portfolio.filter((p) => onDisk(p.image));
+const heroPhoto = photos.find((p) => p.hero);
+const gallery = photos.filter((p) => !p.hero && p.featured !== false).slice(0, 6);
+const showWork = gallery.length >= 3;
+const portrait = '/images/portrait/vera-wolf.jpg';
+const hasPortrait = onDisk(portrait);
 
 const hours = site.openingHours.filter((h) => !h.hours.includes('PLATZHALTER'));
 const hasPhone = !site.phone.includes('PLATZHALTER');
 const hasMail = !site.email.includes('PLATZHALTER');
+const hasInstagram = site.instagramHref.startsWith('http');
 ---
 
 <BaseLayout title={title} description={description} home>
@@ -48,22 +54,31 @@ const hasMail = !site.email.includes('PLATZHALTER');
     <div class="container hero__grid">
       <div class="hero__text">
         <h1 id="hero-title">Schöne Nägel, gesunder Naturnagel.</h1>
-        <p class="lead">Gel&#8209;X, Modellage und Maniküre von Vera, MMA-frei in March.</p>
+        <p class="lead">Gel&#8209;X, Modellage und Maniküre von Vera, MMA&#8209;frei in March.</p>
         <div class="hero__actions">
           <a class="btn" href="#termin">Termin anfragen</a>
           <a class="link" href="#preise">Zu den Preisen</a>
         </div>
       </div>
-      <figure class="claw-field" aria-hidden="true">
-        <svg viewBox="0 0 640 560" preserveAspectRatio="xMidYMid slice" focusable="false">
-          <rect class="f-rose" x="0" y="0" width="250" height="560" rx="16" />
-          <rect class="f-gold" x="262" y="0" width="378" height="300" rx="16" />
-          <rect class="f-blush" x="262" y="312" width="183" height="248" rx="16" />
-          <rect class="f-oak" x="457" y="312" width="183" height="248" rx="16" />
-          <g transform="rotate(-20 300 250)">
-            <rect class="f-cut" x="196" y="40" width="22" height="430" rx="11" />
-            <rect class="f-cut" x="262" y="10" width="22" height="470" rx="11" />
-            <rect class="f-cut" x="328" y="50" width="22" height="400" rx="11" />
+      <figure class="claw-field">
+        {
+          heroPhoto && (
+            <img
+              src={withBase(heroPhoto.image)}
+              alt={heroPhoto.alt}
+              width={heroPhoto.width}
+              height={heroPhoto.height}
+              style={`object-position: ${heroPhoto.focus ?? '50% 50%'}`}
+              fetchpriority="high"
+              decoding="async"
+            />
+          )
+        }
+        <svg class="claw-field__marks" viewBox="0 0 640 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <g transform="rotate(-20 120 140)">
+            <rect class="f-cut" x="60" y="-120" width="22" height="330" rx="11" />
+            <rect class="f-cut" x="122" y="-150" width="22" height="370" rx="11" />
+            <rect class="f-cut" x="184" y="-110" width="22" height="300" rx="11" />
           </g>
         </svg>
       </figure>
@@ -85,6 +100,39 @@ const hasMail = !site.email.includes('PLATZHALTER');
       </dl>
     </div>
   </section>
+
+  {
+    showWork && (
+      <section class="work" id="arbeiten" aria-labelledby="work-title">
+        <div class="container">
+          <div class="work__head">
+            <h2 id="work-title">Sets aus Veras Händen</h2>
+            {hasInstagram && <a class="link" href={site.instagramHref} rel="me noopener">Mehr auf Instagram</a>}
+          </div>
+          <ul class="work__grid">
+            {gallery.map((p, i) => (
+              <li class={i === 0 ? 'work__lead' : undefined}>
+                <figure class="work__item">
+                  <div class="work__frame">
+                    <img
+                      src={withBase(p.image)}
+                      alt={p.alt}
+                      width={p.width}
+                      height={p.height}
+                      style={`object-position: ${p.focus ?? '50% 50%'}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>{p.caption}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
 
   <section class="shapes" aria-labelledby="shapes-title">
     <div class="container">
@@ -167,6 +215,14 @@ const hasMail = !site.email.includes('PLATZHALTER');
         <p class="lead">Vera arbeitet so, dass Ihr eigener Nagel darunter gesund bleibt.</p>
       </div>
       <div class="studio__certs">
+        {
+          hasPortrait && (
+            <figure class="portrait">
+              <img src={withBase(portrait)} alt="Vera Wolf in rosa Schürze" width="560" height="700" loading="lazy" decoding="async" />
+              <figcaption>Vera Wolf</figcaption>
+            </figure>
+          )
+        }
         <h3>Geschult an der Lynis Nailacademy</h3>
         <ul class="certs">
           {certificates.map((c) => <li>{c.title}</li>)}
@@ -176,24 +232,6 @@ const hasMail = !site.email.includes('PLATZHALTER');
     </div>
   </section>
 
-  {
-    showWork && (
-      <section class="work" aria-labelledby="work-title">
-        <div class="container">
-          <h2 id="work-title">Sets aus dem Studio</h2>
-          <ul class="work__grid">
-            {photos.slice(0, 6).map((p) => (
-              <li>
-                <figure class="work__item">
-                  <img src={withBase(p.image)} alt={p.alt} loading="lazy" decoding="async" width="1200" height="1500" />
-                </figure>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    )
-  }
 
   <section class="visit" id="termin" aria-labelledby="visit-title">
     <div class="container visit__grid">

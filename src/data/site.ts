@@ -19,15 +19,15 @@ export const site = {
   url: 'https://www.vera-wolf-nageldesign.de', // [PLATZHALTER] finale Domain
 
   address: {
-    street: 'Landstraße 39',
+    street: 'Häglestraße 5',
     zip: '79232',
-    city: 'March-Hugstetten',
+    city: 'March',
     region: 'Baden-Württemberg',
     country: 'DE',
     mapsEmbedSrc:
-      'https://www.google.com/maps?q=Landstra%C3%9Fe+39,+79232+March-Hugstetten&output=embed',
+      'https://www.google.com/maps?q=H%C3%A4glestra%C3%9Fe+5,+79232+March&output=embed',
     mapsLinkHref:
-      'https://www.google.com/maps/search/?api=1&query=Landstra%C3%9Fe+39%2C+79232+March-Hugstetten',
+      'https://www.google.com/maps/search/?api=1&query=H%C3%A4glestra%C3%9Fe+5%2C+79232+March',
   },
 
   // [PLATZHALTER] — echte Kontaktdaten von Alex/Vera einholen.
