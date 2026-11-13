@@ -3,11 +3,20 @@
 // werden an mehreren Stellen verwendet (Kontakt, Footer, Schema.org).
 
 export const site = {
-  name: 'Vera Wolf Nageldesign',
-  tagline: 'Ein stiller Ort für gepflegte Hände',
+  name: 'Wolf Clawz',
+  addition: 'Nail Design by Vera',
+  fullName: 'Wolf Clawz Nail Design by Vera',
+  owner: 'Vera Wolf',
+  tagline: 'Rosa & Gold, Eleganz mit Naturtönen',
   positioning:
-    'Präzise Modellage, apparative Maniküre und kompromisslose Naturnagelgesundheit — im Premium-Segment für March, Freiburg und das Umland.',
-  url: 'https://www.vera-wolf-nageldesign.de',
+    'Gel-X, Modellage und Maniküre mit MMA-freien Produkten, mit Blick auf die Gesundheit des Naturnagels. In March bei Freiburg.',
+
+  // Logo-Dateien aus dem Design System „Wolf Clawz“. Sobald die PNGs unter
+  // public/images/logo/ liegen, erscheinen sie automatisch statt des
+  // Text-Platzhalters (siehe src/components/clawz/Logo.astro).
+  logo: '/images/logo/wolf-clawz-logo-freigestellt.png',
+  logoLight: '/images/logo/wolf-clawz-logo-hell.png',
+  url: 'https://www.vera-wolf-nageldesign.de', // [PLATZHALTER] finale Domain
 
   address: {
     street: 'Landstraße 39',

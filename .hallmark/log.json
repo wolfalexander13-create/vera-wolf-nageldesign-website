@@ -1,0 +1,29 @@
+[
+ {
+  "shape": "studio-book",
+  "theme": "custom",
+  "axes": "light/roman-serif/warm",
+  "hero": "stage",
+  "nav": "edge-aligned",
+  "footer": "mast",
+  "imagery": "none",
+  "photos": [],
+  "entry": "none",
+  "fingerprint": "wolf-clawz-v1",
+  "sections": [
+   "hero",
+   "rows",
+   "grid",
+   "switcher-table",
+   "statement-band",
+   "form"
+  ],
+  "signature": "logo claw scratches cut through rose, gold, blush and oak blocks",
+  "waived": [
+   "48"
+  ],
+  "prompt": "Website für Wolf Clawz Nail Design by Vera, March",
+  "date": "2026-11-13",
+  "mode": "build"
+ }
+]

@@ -1,52 +1,43 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import SiteHeader from '../components/clawz/SiteHeader.astro';
+import SiteFooter from '../components/clawz/SiteFooter.astro';
+import { site } from '../data/site';
 import { withBase } from '../utils/url';
-import '../styles/global.css';
+import '../styles/clawz.css';
 
 interface Props {
   title: string;
   description: string;
-  /** JSON-LD Objekte, die zusätzlich zum globalen LocalBusiness-Schema eingebunden werden. */
+  /** JSON-LD Objekte, die zusätzlich zum globalen NailSalon-Schema eingebunden werden. */
   structuredData?: Record<string, unknown>[];
   noindex?: boolean;
+  home?: boolean;
 }
 
-const { title, description, structuredData = [], noindex = false } = Astro.props;
+const { title, description, structuredData = [], noindex = false, home = false } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(withBase('/images/og/og-cover.jpg'), Astro.site);
+const isSet = (v: string) => v && !v.includes('PLATZHALTER');
 
-const localBusinessSchema = {
+const localBusinessSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'NailSalon',
-  name: 'Vera Wolf Nageldesign',
-  description:
-    'Premium-Nagelstudio in March bei Freiburg im Breisgau: russische Maniküre, präzise Modellage und Naturnagelpflege ohne MMA.',
-  image: String(new URL(withBase('/images/og/og-cover.jpg'), Astro.site)),
+  name: site.fullName,
+  description: site.positioning,
   url: String(Astro.site),
-  telephone: '[PLATZHALTER: Telefonnummer]',
-  priceRange: '€€–€€€',
+  priceRange: '€€',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Landstraße 39',
-    postalCode: '79232',
-    addressLocality: 'March-Hugstetten',
-    addressRegion: 'Baden-Württemberg',
-    addressCountry: 'DE',
+    streetAddress: site.address.street,
+    postalCode: site.address.zip,
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
   },
-  areaServed: [
-    'March',
-    'Umkirch',
-    'Hugstetten',
-    'Bötzingen',
-    'Gundelfingen',
-    'Freiburg im Breisgau',
-  ],
-  openingHoursSpecification: [
-    '[PLATZHALTER: Öffnungszeiten strukturiert ergänzen, sobald final]',
-  ],
+  areaServed: site.serviceArea,
 };
+if (isSet(site.phone)) localBusinessSchema.telephone = site.phone;
 ---
 
 <!doctype html>
@@ -61,30 +52,23 @@ const localBusinessSchema = {
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Vera Wolf Nageldesign" />
+    <meta property="og:site_name" content={site.fullName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:locale" content="de_DE" />
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageURL} />
 
-    <!-- Fonts: Fraunces (Display) + Manrope (Body) -->
+    <!-- Schriften laut Design System: Cormorant Garamond (Überschriften) und Jost (Text) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Jost:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Schema.org: NailSalon / LocalBusiness -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify(localBusinessSchema)} />
     {
       structuredData.map((schema) => (
@@ -93,11 +77,11 @@ const localBusinessSchema = {
     }
   </head>
   <body>
-    <a href="#main" class="skip-link">Zum Inhalt springen</a>
-    <Header />
+    <a class="skip" href="#main">Zum Inhalt springen</a>
+    <SiteHeader home={home} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <SiteFooter />
   </body>
 </html>

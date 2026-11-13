@@ -1,0 +1,27 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../../data/site';
+import { withBase } from '../../utils/url';
+
+const hasInstagram = site.instagramHref.startsWith('http');
+---
+
+<footer class="foot">
+  <div class="container foot__inner">
+    <div class="foot__mast">
+      <Logo class="foot__logo" />
+      <p class="foot__line">
+        {site.address.street}, {site.address.zip} {site.address.city}
+      </p>
+    </div>
+    <nav class="foot__links" aria-label="Fußzeile">
+      <a href={withBase('/') + '#leistungen'}>Leistungen</a>
+      <a href={withBase('/') + '#preise'}>Preise</a>
+      <a href={withBase('/') + '#termin'}>Termin anfragen</a>
+      {hasInstagram && <a href={site.instagramHref} rel="me noopener">Instagram</a>}
+      <a href={withBase('/impressum/')}>Impressum</a>
+      <a href={withBase('/datenschutz/')}>Datenschutz</a>
+    </nav>
+    <p class="foot__legal">{site.fullName}, Inhaberin {site.owner}</p>
+  </div>
+</footer>

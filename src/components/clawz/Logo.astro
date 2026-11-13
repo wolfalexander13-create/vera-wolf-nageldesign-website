@@ -1,0 +1,36 @@
+---
+// Zeigt das echte Logo, sobald die Datei unter public/ liegt.
+// Bis dahin steht der Name als Text-Platzhalter da. Das Design System sagt:
+// das Logo nie nachsetzen. Der Text ist nur ein Platzhalter, kein Logo-Ersatz.
+import fs from 'node:fs';
+import path from 'node:path';
+import { site } from '../../data/site';
+import { withBase } from '../../utils/url';
+
+interface Props {
+  variant?: 'standard' | 'hell';
+  class?: string;
+}
+
+const { variant = 'standard', class: klass } = Astro.props;
+const file = variant === 'hell' ? site.logoLight : site.logo;
+const exists = fs.existsSync(path.join(process.cwd(), 'public', file));
+---
+
+{
+  exists ? (
+    <img
+      class={`logo ${klass ?? ''}`}
+      src={withBase(file)}
+      alt={site.fullName}
+      width="1629"
+      height="709"
+      decoding="async"
+    />
+  ) : (
+    <span class={`logo logo--text ${klass ?? ''}`}>
+      <span class="logo__name">{site.name}</span>
+      <span class="logo__add">{site.addition}</span>
+    </span>
+  )
+}
