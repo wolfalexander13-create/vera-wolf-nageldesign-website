@@ -38,6 +38,7 @@ const localBusinessSchema: Record<string, unknown> = {
   areaServed: site.serviceArea,
 };
 if (isSet(site.phone)) localBusinessSchema.telephone = site.phone;
+if (site.instagramHref.startsWith('http')) localBusinessSchema.sameAs = [site.instagramHref];
 ---
 
 <!doctype html>

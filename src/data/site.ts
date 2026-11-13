@@ -37,7 +37,7 @@ export const site = {
   emailHref: 'mailto:', // TODO: z. B. "mailto:info@vera-wolf-nageldesign.de"
   whatsappHref: 'https://wa.me/', // TODO: Ländervorwahl + Nummer ohne Leerzeichen ergänzen, z. B. https://wa.me/4976650000
 
-  instagramHref: '[PLATZHALTER: Instagram-Profil-URL]',
+  instagramHref: 'https://www.instagram.com/wolfclawz.byvera/',
 
   openingHours: [
     { day: 'Montag', hours: '[PLATZHALTER]' },
