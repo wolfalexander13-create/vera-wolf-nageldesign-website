@@ -33,14 +33,14 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .fill { padding: 0 0.25em; border: 1px dashed var(--color-muted); border-radius: 3px; color: var(--color-muted); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 /* ---------- logo ---------- */
-.logo { display: block; height: 52px; width: auto; }
+.logo { display: block; height: 84px; width: auto; }
 .logo--text { display: inline-flex; flex-direction: column; height: auto; line-height: 1; color: var(--color-ink); }
 .logo__name { font-family: var(--font-display); font-weight: 500; font-size: 1.75rem; color: var(--color-gold-text); }
 .logo__add { margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--color-muted); }
 
 /* ---------- nav ---------- */
 .nav { border-bottom: 1px solid var(--color-rule); background: var(--color-paper); }
-.nav__inner { display: flex; align-items: center; gap: var(--space-xl); min-height: 80px; }
+.nav__inner { display: flex; align-items: center; gap: var(--space-xl); min-height: 104px; }
 .nav__home { display: inline-flex; padding-block: var(--space-xs); text-decoration: none; border-radius: var(--radius-sm); }
 .nav__home:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; }
 .nav nav { margin-left: auto; }
@@ -50,7 +50,7 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .nav__links a:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 
 /* ---------- hero ---------- */
-.hero__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); align-items: center; min-height: min(calc(100dvh - 81px), 820px); padding-block: var(--space-2xl); }
+.hero__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); align-items: center; min-height: min(calc(100dvh - 105px), 820px); padding-block: var(--space-2xl); }
 .hero__text { display: grid; gap: var(--space-lg); }
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-lg); margin-top: var(--space-md); }
 .claw-field { position: relative; margin: 0; height: clamp(360px, 66vh, 600px); overflow: hidden; border-radius: var(--radius-lg); background: var(--color-marble); }
@@ -172,7 +172,7 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .foot { padding-block: var(--space-3xl) var(--space-xl); border-top: 1px solid var(--color-rule); background: var(--color-paper-2); }
 .foot__inner { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); row-gap: var(--space-2xl); }
 .foot__mast { grid-column: 1 / span 6; display: grid; gap: var(--space-md); justify-items: start; }
-.foot__logo.logo { height: 88px; }
+.foot__logo.logo { height: 128px; }
 .foot__logo .logo__name { font-size: 2.75rem; }
 .foot__line { color: var(--color-muted); }
 .foot__links { grid-column: 8 / span 5; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xs) var(--gap-columns); align-content: start; }
@@ -196,7 +196,7 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 @media (max-width: 60rem) {
   .nav nav { display: none; }
   .nav__action { margin-left: auto; }
-  .logo { height: 40px; }
+  .logo { height: 60px; }
   .logo__name { font-size: 1.5rem; }
   .hero__grid { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-xl); min-height: 0; padding-block: var(--space-xl) var(--space-2xl); }
   .claw-field { height: clamp(240px, 56vw, 420px); }
