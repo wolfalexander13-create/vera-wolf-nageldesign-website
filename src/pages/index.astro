@@ -184,7 +184,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
         <div class="container">
           <div class="work__head">
             <h2 id="work-title">Frisch aus meinem Studio</h2>
-            {hasInstagram && <a class="link" href={site.instagramHref} rel="me noopener">Mehr auf Instagram</a>}
+            {hasInstagram && <a class="link" href={site.instagramHref} target="_blank" rel="me noopener">Mehr auf Instagram<span class="visually-hidden"> (öffnet in neuem Tab)</span></a>}
           </div>
           <ul class="work__grid">
             {gallery.map((p, i) => (
@@ -309,8 +309,11 @@ const hasInstagram = site.instagramHref.startsWith('http');
       <div class="studio__statement">
         <h2 id="about-title">Hallo, ich bin Vera.</h2>
         <p class="lead">
-          <span class="fill" data-fill="about">Hier erzählst du, wer du bist und wie du zum Nageldesign gekommen bist</span>
+          Vor 17 Jahren habe ich angefangen, mir selbst die Nägel zu machen, um Geld zu sparen. Aus der Not wurde
+          eine Leidenschaft, und aus dem Hobby ist mein Beruf geworden.
         </p>
+        <p>Seit 2024 bin ich zertifiziert und jeden Tag froh, so einen schönen Beruf zu haben.</p>
+        <p>Danke an meinen Mann, der mich auf diesem Weg unterstützt.</p>
       </div>
       <div class="studio__certs">
         <h3>Geschult an der Lynis Nailacademy</h3>
@@ -344,7 +347,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
             <dt>Adresse</dt>
             <dd>
               {site.address.street}<br />{site.address.zip} {site.address.city}<br />
-              <a class="link" href={site.address.mapsLinkHref} rel="noopener">Route in Google Maps</a>
+              <a class="link" href={site.address.mapsLinkHref} target="_blank" rel="noopener">Route in Google Maps<span class="visually-hidden"> (öffnet in neuem Tab)</span></a>
             </dd>
           </div>
           <div>
@@ -354,7 +357,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
           <div>
             <dt>Kontakt</dt>
             <dd>
-              {hasInstagram && <a class="link" href={site.instagramHref} rel="me noopener">@WolfClawz.byVera auf Instagram</a>}
+              {hasInstagram && <a class="link" href={site.instagramHref} target="_blank" rel="me noopener">@WolfClawz.byVera auf Instagram<span class="visually-hidden"> (öffnet in neuem Tab)</span></a>}
               {hasPhone && <><br /><a class="link" href={site.phoneHref}>{site.phone}</a></>}
               {hasMail && <><br /><a class="link" href={site.emailHref}>{site.email}</a></>}
             </dd>

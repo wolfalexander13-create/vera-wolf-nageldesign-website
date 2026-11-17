@@ -110,6 +110,7 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .studio__statement h2 { font-size: var(--text-section); }
 .studio__statement .fill { color: var(--color-on-rose); border-color: var(--color-on-rose); }
 .studio__statement .lead { color: var(--color-ink); }
+.studio__statement p:not(.lead) { color: var(--color-ink); }
 .studio__certs { grid-column: 10 / span 3; display: grid; gap: var(--space-md); }
 .certs { margin: 0; padding: 0; list-style: none; }
 .certs li { padding-block: var(--space-sm); border-top: 1px solid var(--color-rose); }

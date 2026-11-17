@@ -18,7 +18,7 @@ const hasInstagram = site.instagramHref.startsWith('http');
       <a href={withBase('/') + '#angebot'}>Angebot</a>
       <a href={withBase('/') + '#preise'}>Preise</a>
       <a href={withBase('/') + '#termin'}>Termin anfragen</a>
-      {hasInstagram && <a href={site.instagramHref} rel="me noopener">Instagram</a>}
+      {hasInstagram && <a href={site.instagramHref} target="_blank" rel="me noopener">Instagram<span class="visually-hidden"> (öffnet in neuem Tab)</span></a>}
       <a href={withBase('/impressum/')}>Impressum</a>
       <a href={withBase('/datenschutz/')}>Datenschutz</a>
     </nav>
