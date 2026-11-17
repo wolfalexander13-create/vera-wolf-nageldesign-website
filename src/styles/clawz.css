@@ -104,7 +104,7 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .price-table__desc { display: block; margin-top: var(--space-2xs); font-weight: 400; font-size: var(--text-sm); color: var(--color-muted); }
 
 /* ---------- studio: blush band ---------- */
-.studio { padding-block: var(--section-gap-s); background: var(--color-blush); color: var(--color-ink); }
+.studio { padding-block: var(--section-gap-s) var(--section-gap); background: var(--color-blush); color: var(--color-ink); }
 .studio__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); align-items: start; }
 .studio__statement { grid-column: 5 / span 4; display: grid; gap: var(--space-lg); }
 .studio__statement h2 { font-size: var(--text-section); }
@@ -112,6 +112,9 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .studio__statement .lead { color: var(--color-ink); }
 .studio__statement p:not(.lead) { color: var(--color-ink); }
 .studio__certs { grid-column: 10 / span 3; display: grid; gap: var(--space-md); }
+.certs-details summary { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-on-rose); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; cursor: pointer; }
+.certs-details summary:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.certs-details[open] summary { margin-bottom: var(--space-sm); }
 .certs { margin: 0; padding: 0; list-style: none; }
 .certs li { padding-block: var(--space-sm); border-top: 1px solid var(--color-rose); }
 .certs li:last-child { border-bottom: 1px solid var(--color-rose); }
@@ -153,6 +156,7 @@ h3 { font-size: var(--text-title); line-height: 1.2; }
 .visit { padding-block: var(--section-gap) var(--section-gap-s); }
 .visit__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); align-items: start; }
 .visit__facts { display: grid; gap: var(--space-xl); }
+.visit__intro { font-size: var(--text-lead); line-height: 1.5; color: var(--color-muted); max-width: 40ch; }
 .facts { display: grid; gap: var(--space-lg); margin: 0; }
 .facts > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--color-rule); }
 .facts dt { font-size: var(--text-sm); color: var(--color-muted); padding-top: 0.15em; }

@@ -16,7 +16,7 @@ const offers = [
   { name: 'Naturnagelverstärkung', line: 'Ich stärke und schütze deine eigenen Nägel, ohne Verlängerung.' },
   { name: 'Gel-Modellage mit Verlängerung', line: 'Mit Schablone, Tipps oder Dual Form, von Länge S bis Überlänge.' },
   { name: 'Acrylgel', line: 'Modellage mit Acrylgel, mit oder ohne Verlängerung.' },
-  { name: 'Nailart', line: 'Von French und Cat-Eye bis Handmalerei und 3D-Gel.' },
+  { name: 'Nailart', line: 'Von French bis 3D-Gel. Am liebsten male ich von Hand, mit viel Präzision.' },
   { name: 'Hochzeitsnägel', line: 'Abgestimmt auf dein Kleid, deinen Brautstrauß und dich.' },
 ];
 
@@ -310,17 +310,23 @@ const hasInstagram = site.instagramHref.startsWith('http');
         <h2 id="about-title">Hallo, ich bin Vera.</h2>
         <p class="lead">
           Vor 17 Jahren habe ich angefangen, mir selbst die Nägel zu machen, um Geld zu sparen. Aus der Not wurde
-          eine Leidenschaft, und aus dem Hobby ist mein Beruf geworden.
+          Leidenschaft, aus dem Hobby mein Beruf.
         </p>
-        <p>Seit 2024 bin ich zertifiziert und jeden Tag froh, so einen schönen Beruf zu haben.</p>
-        <p>Danke an meinen Mann, der mich auf diesem Weg unterstützt.</p>
+        <p>
+          Seit 2024 bin ich zertifiziert. Am schönsten ist für mich der Moment, wenn du sagst: „Wow, so schöne Nägel
+          hatte ich noch nie.“
+        </p>
+        <p>Ich bin stolze Mama und Ehefrau. Danke an meinen Mann, der mich dabei unterstützt.</p>
       </div>
       <div class="studio__certs">
         <h3>Geschult an der Lynis Nailacademy</h3>
-        <ul class="certs">
-          {certificates.map((c) => <li>{c.title}</li>)}
-        </ul>
-        <p class="certs__by">Bei Evelyn Gerz und Milla Spät</p>
+        <details class="certs-details">
+          <summary>{certificates.length} Schulungen ansehen</summary>
+          <ul class="certs">
+            {certificates.map((c) => <li>{c.title}</li>)}
+          </ul>
+          <p class="certs__by">Bei Evelyn Gerz und Milla Spät</p>
+        </details>
       </div>
     </div>
   </section>
@@ -329,6 +335,9 @@ const hasInstagram = site.instagramHref.startsWith('http');
     <div class="container visit__grid">
       <div class="visit__facts">
         <h2 id="visit-title">Mein Home Studio in Neuershausen</h2>
+        <p class="visit__intro">
+          Entspannt, mit Kaffee oder Licor 43 mit Milch und gern einem guten Gespräch.
+        </p>
         {
           studioPhotos.length > 0 ? (
             <div class="studio-photos">
